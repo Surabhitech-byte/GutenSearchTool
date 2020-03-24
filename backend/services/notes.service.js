@@ -6,17 +6,11 @@ const writeJsonFile = require('write-json-file');
 const loadJsonFile = require('load-json-file');
 const fs = require("fs");
 
-
-/**
- * @typedef {import('moleculer').Context} Context Moleculer's Context
- */
-
 module.exports = {
 	name: "notes",
 	// version: 1
 	mixins: [
 		DbService("notes"),
-		
 	],
 	settings: {
 		// Available fields in the responses
@@ -28,38 +22,29 @@ module.exports = {
 	},
 	actions: {
 		create: {
-			
 			params:{
 				note_text: "string",
 				key:"string"
 			},
-			
 			async handler(ctx) {
 				
 				let text = ctx.params.note_text;
-				let k = ctx.params.key;	
-				//await this.validateEntity(entity);			
+				let k = ctx.params.key;				
 				console.log("entity",text,k);
 				if(k){
 					//generate files here
 					const data = await loadJsonFile('data/notes.json');
-					
 					var key = k;
-
 					var note_value = {};
 					note_value["key"] =k;
 					note_value["note_text"]=text;
-
 					data.notes.push(note_value);
 					console.log("dictionary,",data);
-					
 					fs.writeFile('data/notes.json', JSON.stringify(data), function (err) {
 						if (err) throw err;
-						console.log('Saved!');
-					  }); 
-					
-				}else{
-					
+						console.log('Saved!');}); 
+				}
+				else{
 					console.log("failed")
 				}
 			},
@@ -81,22 +66,17 @@ module.exports = {
 				for (var n in data.notes){
 					console.log(n)
 					if(s==data.notes[n].key){
-
 						console.log("matched")
 						result.push(data.notes[n].note_text) 
 					}
 					else
-					{console.log("not matched")}
+					{
+					console.log("not matched")}
 					console.log(result)
-				
 				}
-				
 				return result;
 			}
-
 		}
-
-
 	},
 	async afterConnected() {
 		// await this.adapter.collection.createIndex({ name: 1 });

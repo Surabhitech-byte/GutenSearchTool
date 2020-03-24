@@ -6,34 +6,20 @@ const writeJsonFile = require('write-json-file');
 const loadJsonFile = require('load-json-file');
 const fs = require("fs");
 
-
-/**
- * @typedef {import('moleculer').Context} Context Moleculer's Context
- */
-
 module.exports = {
 	name: "searchLog",
 	// version: 1
 	mixins: [
-		DbService("searchLog"),
-		
+		DbService("searchLog"),		
 	],
-	settings: {
-		// Available fields in the responses
-        
-	},
+	settings: {	},
 	actions: {
 		create: {
-			
 			params:{
 				key: "string"
 			},
-			
-			async handler(ctx) {
-				
+			async handler(ctx) {	
 				let keyword = ctx.params.key;
-					
-				//await this.validateEntity(entity);			
 				console.log("entity",keyword);
 				if(keyword){
 					//generate files here
@@ -67,7 +53,6 @@ module.exports = {
                         note_value["key"] =keyword;
                         note_value["time"]=date_ob;
                         note_value["count"]=count;
-    
                         data.push(note_value);
                         console.log("dictionary,",data);
                         fs.writeFile('data/searchLog.json', JSON.stringify(data), function (err) {
@@ -75,16 +60,11 @@ module.exports = {
                             console.log('Saved!');
                           }); 
                     }
-   
-				//console.log(data.notes[0].note_text);
-                   	
-				}else{
-					
+				}else{					
 					console.log("failed")
 				}
 			},
 		},
-	
 	},
 	async afterConnected() {
 		// await this.adapter.collection.createIndex({ name: 1 });

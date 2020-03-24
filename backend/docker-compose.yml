@@ -19,25 +19,25 @@ services:
     networks:
       - internal
 
-  greeter:
+  notes:
     build:
       context: .
     image: backend
     env_file: docker-compose.env
     environment:
-      SERVICES: greeter
+      SERVICES: notes
     depends_on:
       - nats
     networks:
       - internal
 
-  products:
+  searchLog:
     build:
       context: .
     image: backend
     env_file: docker-compose.env
     environment:
-      SERVICES: products
+      SERVICES: searchLog
     depends_on:
       - mongo
       - nats
@@ -72,7 +72,7 @@ services:
   traefik:
     image: traefik:v2.1
     command:
-      - "--api.insecure=true" # Don't do that in production!
+      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
     ports:
